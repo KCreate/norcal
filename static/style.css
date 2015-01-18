@@ -44,6 +44,13 @@ body {
   font-weight: bold;
 }
 
+#controls .centered {
+  text-align: center;
+}
+#controls .centered.editing {
+  text-align: left;
+}
+
 #controls form#month-year {
   display: inline-block;
 }

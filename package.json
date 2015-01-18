@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "autocomplete-element": "^1.0.0",
+    "class-list": "^0.1.1",
     "ecstatic": "~0.5.8",
     "forkdb": "^8.0.0",
     "html-template": "^1.0.1",

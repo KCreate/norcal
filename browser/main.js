@@ -1,4 +1,5 @@
 var auto = require('autocomplete-element');
+var classList = require('class-list');
 
 var month = document.querySelector('#controls [name="month"]');
 month.addEventListener('focus', function (ev) { this.select() });
@@ -14,6 +15,18 @@ auto(month, function (c) {
     });
     c.suggest(matches);
 });
+month.addEventListener('focus', function () {
+    classList(this).add('editing');
+});
+month.addEventListener('blur', function () {
+    classList(this).remove('editing');
+});
+month.addEventListener('keydown', function (ev) {
+    if ((ev.which || ev.keyDown) === 10 || (ev.which || ev.keyDown) === 13) {
+        this.blur();
+    }
+});
+
 function lc (x) { return x.toLowerCase() }
 
 var year = document.querySelector('#controls [name="month"]');
