@@ -35,6 +35,10 @@ body {
   background-color: rgb(240,220,240);
 }
 
+.calendar .day.today {
+  background-color: rgb(240,220,180);
+}
+
 #controls {
   height: 2em;
   padding: 1em;

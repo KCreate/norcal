@@ -10,11 +10,18 @@ module.exports = function (date) {
     
     var html = template();
     var days = html.template('day');
+    var today = new Date;
+    
     for (var i = 0; i < first.getDay(); i++) {
         days.write({ '*': { class: { append: ' empty' } } });
     }
     for (var i = 1; i <= mdays; i++) {
-        days.write({ '.date': i });
+        var update = { '.date': i };
+        if (i === today.getDate() && today.getFullYear() === Y
+        && today.getMonth() === M - 1) {
+            update['*:first'] = { class: { append: ' today' } };
+        }
+        days.write(update);
     }
     days.end();
     return html;
