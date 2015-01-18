@@ -7,7 +7,7 @@ var strftime = require('strftime');
 var ecstatic = require('ecstatic');
 var st = ecstatic(__dirname + '/static');
 
-var month = require('./lib/month.js');
+var month = require('./render/month.js');
 
 var server = http.createServer(function (req, res) {
     if (req.url === '/') {
@@ -15,7 +15,7 @@ var server = http.createServer(function (req, res) {
         read('index.html').pipe(hyperstream({
             '#controls [name="month"]': { value: strftime('%B', date) },
             '#controls [name="year"]': { value: date.getFullYear() },
-            '#calendar': month(date)
+            '#calendar': read('calendar.html').pipe(month(date))
         })).pipe(res);
     }
     else st(req, res);
