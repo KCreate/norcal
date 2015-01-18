@@ -34,3 +34,16 @@ body {
 .calendar .day.empty {
   background-color: rgb(240,220,240);
 }
+
+#controls {
+  height: 40px;
+}
+
+#controls .editable {
+  border-width: 0px;
+  font-weight: bold;
+}
+
+#controls form#month-year {
+  display: inline-block;
+}

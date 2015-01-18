@@ -4,6 +4,7 @@
   "description": "embeddable, sinkable calendar application",
   "main": "index.js",
   "dependencies": {
+    "autocomplete-element": "^1.0.0",
     "ecstatic": "~0.5.8",
     "forkdb": "^8.0.0",
     "html-template": "^1.0.1",
@@ -21,7 +22,9 @@
     "watchify": "^2.2.1"
   },
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "tape test/*.js",
+    "watch": "watchify browser/main.js -o static/bundle.js -dv",
+    "build": "browserify browser/main.js > static/bundle.js"
   },
   "repository": {
     "type": "git",
