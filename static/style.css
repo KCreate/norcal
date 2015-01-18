@@ -30,3 +30,7 @@ body {
   border-right: 1px solid purple;
   border-bottom: 1px solid purple;
 }
+
+.calendar .day.empty {
+  background-color: rgb(240,220,240);
+}
