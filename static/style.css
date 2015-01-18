@@ -55,3 +55,8 @@ body {
 #controls form#month-year {
   display: inline-block;
 }
+
+#controls .select {
+  display: inline-block;
+  margin-right: 10px;
+}

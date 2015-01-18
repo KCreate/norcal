@@ -8,7 +8,7 @@
     "class-list": "^0.1.1",
     "ecstatic": "~0.5.8",
     "forkdb": "^8.0.0",
-    "html-template": "^1.0.1",
+    "html-template": "^1.1.0",
     "hyperstream": "^1.2.2",
     "level": "~0.18.0",
     "level-js": "^2.1.6",
