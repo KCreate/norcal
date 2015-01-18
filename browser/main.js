@@ -30,6 +30,15 @@ month.addEventListener('keydown', function (ev) {
     if ((ev.which || ev.keyDown) === 10 || (ev.which || ev.keyDown) === 13) {
         this.blur();
     }
+    var ix = months.indexOf(ucfirst(month.value));
+    if (ix >= 0) showMonth(year.value, ix);
+});
+
+var ymform = document.querySelector('form#month-year')
+ymform.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var ix = months.indexOf(ucfirst(month.value));
+    if (ix >= 0) showMonth(year.value, ix);
 });
 
 var showMonth = require('./month.js');
@@ -50,6 +59,20 @@ mright.addEventListener('click', function (ev) {
     if (ix === 11) year.value = Number(year.value) + 1;
     cmonth.set(months[(ix + 1) % 12]);
     showMonth(year.value, (ix + 1) % 12);
+});
+
+var yleft = document.querySelector('#controls .year [name="left"]');
+yleft.addEventListener('click', function (ev) {
+    year.value = Number(year.value) - 1;
+    var ix = months.indexOf(ucfirst(month.value));
+    if (ix >= 0) showMonth(year.value, ix);
+});
+
+var yright = document.querySelector('#controls .year [name="right"]');
+yright.addEventListener('click', function (ev) {
+    year.value = Number(year.value) + 1;
+    var ix = months.indexOf(ucfirst(month.value));
+    if (ix >= 0) showMonth(year.value, ix);
 });
 
 var year = document.querySelector('#controls [name="year"]');
