@@ -1,0 +1,32 @@
+body {
+  margin: 0px;
+  font-family: sans-serif;
+}
+
+.calendar {
+  position: relative;
+  width: 100%;
+}
+
+.calendar .column {
+  float: left;
+  width: calc(100%/7 - 21px);
+  padding: 10px;
+  margin: 0px;
+}
+
+.calendar .br {
+  clear: left;
+}
+.calendar .labels .column {
+  font-weight: bold;
+  background-color: purple;
+  color: white;
+  border-left: 1px solid white;
+}
+
+.calendar .day {
+  height: 150px;
+  border-right: 1px solid purple;
+  border-bottom: 1px solid purple;
+}
