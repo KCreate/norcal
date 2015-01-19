@@ -9,7 +9,7 @@ var st = ecstatic(__dirname + '/static');
 
 var month = require('./render/month.js');
 
-var server = http.createServer(function (req, res) {
+module.exports = function (req, res) {
     if (req.url === '/') {
         var date = new Date;
         read('index.html').pipe(hyperstream({
@@ -19,8 +19,7 @@ var server = http.createServer(function (req, res) {
         })).pipe(res);
     }
     else st(req, res);
-});
-server.listen(5000);
+};
 
 function read (file) {
     return fs.createReadStream(path.join(__dirname, 'static', file));

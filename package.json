@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "embeddable, sinkable calendar application",
   "main": "index.js",
+  "bin": {
+    "norcal": "bin/cmd.js"
+  },
   "dependencies": {
     "autocomplete-element": "^1.0.0",
     "class-list": "~0.1.1",
@@ -10,6 +13,8 @@
     "forkdb": "^8.0.0",
     "html-template": "^1.1.0",
     "hyperstream": "^1.2.2",
+    "is-root": "^1.0.0",
+    "minimist": "^1.1.0",
     "month-days": "^1.0.0",
     "strftime": "~0.8.2"
   },
@@ -21,7 +26,8 @@
   "scripts": {
     "test": "tape test/*.js",
     "watch": "watchify browser/main.js -o static/bundle.js -dv",
-    "build": "browserify browser/main.js > static/bundle.js"
+    "build": "browserify browser/main.js > static/bundle.js",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
