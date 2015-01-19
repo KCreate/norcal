@@ -19,7 +19,7 @@ module.exports = function (date) {
         var update = { '.date': i };
         if (i === today.getDate() && today.getFullYear() === Y
         && today.getMonth() === M - 1) {
-            update['*:first'] = { class: { append: ' today' } };
+            update['.day'] = { class: { append: ' today' } };
         }
         days.write(update);
     }
