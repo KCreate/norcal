@@ -1,4 +1,0 @@
-aggregate/link calendars together
-application / approval
-reserve space and items (ballroom and the projector)
-recurring events, rescheduling one-off events
