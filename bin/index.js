@@ -12,10 +12,8 @@ function Bin (dir) {
   mkdirp.sync(dir)
   this.ldb = level(path.join(dir, 'log'))
   this.idb = level(path.join(dir, 'index'))
-  this.log = hyperlog(this.ldb)
-  this.cal = Cal({
-    log: this.log
-  })
+  this.log = hyperlog(this.ldb, { valueEncoding: 'json' })
+  this.cal = Cal({ log: this.log, db: this.idb })
 }
 
 Bin.prototype.showMonth = function () {
@@ -25,4 +23,16 @@ Bin.prototype.showMonth = function () {
     console.log(row)
     next()
   }
+}
+
+Bin.prototype.createEvent = function (ev) {
+  this.cal.createEvent(ev, function (err, node) {
+    if (err) exit(err)
+    else console.log(node.key)
+  })
+}
+
+function exit (err) {
+  console.error(err.message)
+  process.exit(1)
 }

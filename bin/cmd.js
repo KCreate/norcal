@@ -14,6 +14,8 @@ var argv = minimist(process.argv.slice(2), {
 if (argv.help || argv._[0] === 'help') usage(0)
 else if (argv._.length === 0) {
   getbin().showMonth()
+} else if (argv._[0] === 'create') {
+  getbin().createEvent(argv._.slice(1).join(' '), argv)
 } else usage(1)
 
 function usage (code) {
