@@ -1,8 +1,0 @@
-norcal server {OPTIONS}
-
-  -p, --port  Listen on a PORT.
-
-norcal help
-
-  Show this message.
-
