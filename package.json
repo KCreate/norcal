@@ -10,6 +10,7 @@
     "calendar-month-string": "^1.0.0",
     "collect-stream": "^1.1.1",
     "fuzzy-ansi-color": "^1.0.0",
+    "has": "^1.0.1",
     "hyperkv": "^1.7.0",
     "hyperlog": "^4.7.0",
     "hyperlog-calendar-index": "^1.1.1",

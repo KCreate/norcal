@@ -11,13 +11,14 @@ var calmonth = require('calendar-month-string')
 var layers = require('text-layers')
 var fcolor = require('fuzzy-ansi-color')
 var strftime = require('strftime')
+var has = require('has')
 
 var reset = fcolor('reset')
 var soft = '\x1b[27m'
 
 var xcolors = [
-  'cyan', 'purple', 'lime', 'orange',
-  'magenta', 'blue', 'yellow', 'red'
+  'cyan', 'lime', 'orange', 'magenta',
+  'yellow', 'red', 'blue', 'violet'
 ]
 
 var argv = minimist(process.argv.slice(2), {
@@ -67,26 +68,27 @@ if (argv._[0] === 'add') {
     var titles = {}
     var times = {}
     var index = 0
-    var icolors = {}
+    var indexes = {}
+    var keys = []
     docs.forEach(function (doc) {
-      if (!icolors[doc.key]) {
-        icolors[doc.key] = xcolors[index++%xcolors.length]
+      if (!has(indexes,doc.key)) {
+        indexes[doc.key] = index++
+        keys.push(doc.key)
       }
     })
     colors[date.getDate()] = 'reverse'
     docs.forEach(function (doc) {
       var d = doc.time.getDate()
-      if (date.getDate() === d) {
-        colors[d] = 'reverse ' + icolors[doc.key]
-      } else {
-        colors[d] = icolors[doc.key]
-      }
+      var i = indexes[doc.key]
+      var c = 'bright ' + xcolors[i%xcolors.length]
+      colors[d] = date.getDate() === d ? 'reverse ' + c : c
       titles[doc.key] = doc.value.title
       times[doc.key] = strftime('%H:%M', doc.time)
     })
     var caltxt = calmonth(new Date, { colors: colors })
-    var evlines = Object.keys(titles).map(function (key, i) {
-      return fcolor('cyan') + '[' + (index++) + '] '
+    var evlines = keys.map(function (key) {
+      var c = 'bright ' + xcolors[indexes[key]%xcolors.length]
+      return fcolor(c) + '[' + indexes[key] + '] '
         + times[key] + reset + ' ' + titles[key]
     })
     console.log(layers([
