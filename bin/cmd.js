@@ -10,6 +10,7 @@ var mkdirp = require('mkdirp')
 var calmonth = require('calendar-month-string')
 var layers = require('text-layers')
 var fcolor = require('fuzzy-ansi-color')
+var strftime = require('strftime')
 
 var reset = fcolor('reset')
 var soft = '\x1b[27m'
@@ -64,6 +65,7 @@ if (argv._[0] === 'add') {
     if (err) return exit(err)
     var colors = {}
     var titles = {}
+    var times = {}
     var index = 0
     var icolors = {}
     docs.forEach(function (doc) {
@@ -80,11 +82,12 @@ if (argv._[0] === 'add') {
         colors[d] = icolors[doc.key]
       }
       titles[doc.key] = doc.value.title
+      times[doc.key] = strftime('%H:%M', doc.time)
     })
     var caltxt = calmonth(new Date, { colors: colors })
     var evlines = Object.keys(titles).map(function (key, i) {
       return fcolor('cyan') + '[' + (index++) + '] '
-        + reset + titles[key]
+        + times[key] + reset + ' ' + titles[key]
     })
     console.log(layers([
       { text: caltxt, x: 0, y: 0 },
