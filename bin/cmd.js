@@ -12,6 +12,8 @@ var layers = require('text-layers')
 var fcolor = require('fuzzy-ansi-color')
 var strftime = require('strftime')
 var has = require('has')
+var fs = require('fs')
+var path = require('path')
 
 var reset = fcolor('reset')
 var soft = '\x1b[27m'
@@ -34,6 +36,10 @@ var argv = minimist(process.argv.slice(2), {
     created: new Date
   }
 })
+if (argv.help || argv._[0] === 'help') {
+  return usage(0)
+}
+
 mkdirp.sync(argv.datadir)
 
 var db = {
@@ -116,4 +122,10 @@ function monthRange (date) {
   last.setMonth(date.getMonth()+1)
   last.setDate(1)
   return { gt: first, lt: last }
+}
+
+function usage (code) {
+  var r = fs.createReadStream(path.join(__dirname, 'usage.txt'))
+  if (code) r.once('end', function () { process.exit(code) })
+  r.pipe(process.stdout)
 }

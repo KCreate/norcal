@@ -1,0 +1,16 @@
+norcal
+
+  Show a calendar and events for the current month.
+
+norcal add TIMESTR {-t TITLE}
+
+  Add an event by its TIMESTR with a TITLE.
+
+norcal rm ID
+
+  Delete an event by its ID.
+
+norcal query {--gt GT --lt LT}
+
+  List events from GT to LT.
+
