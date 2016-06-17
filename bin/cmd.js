@@ -8,6 +8,16 @@ var hyperlog = require('hyperlog')
 var level = require('level')
 var mkdirp = require('mkdirp')
 var calmonth = require('calendar-month-string')
+var layers = require('text-layers')
+var fcolor = require('fuzzy-ansi-color')
+
+var reset = fcolor('reset')
+var soft = '\x1b[27m'
+
+var xcolors = [
+  'cyan', 'purple', 'lime', 'orange',
+  'magenta', 'blue', 'yellow', 'red'
+]
 
 var argv = minimist(process.argv.slice(2), {
   alias: {
@@ -53,15 +63,33 @@ if (argv._[0] === 'add') {
   cal.query(monthRange(date), function (err, docs) {
     if (err) return exit(err)
     var colors = {}
+    var titles = {}
+    var index = 0
+    var icolors = {}
+    docs.forEach(function (doc) {
+      if (!icolors[doc.key]) {
+        icolors[doc.key] = xcolors[index++%xcolors.length]
+      }
+    })
+    colors[date.getDate()] = 'reverse'
     docs.forEach(function (doc) {
       var d = doc.time.getDate()
       if (date.getDate() === d) {
-        colors[d] = 'reverse cyan'
+        colors[d] = 'reverse ' + icolors[doc.key]
       } else {
-        colors[d] = 'cyan'
+        colors[d] = icolors[doc.key]
       }
+      titles[doc.key] = doc.value.title
     })
-    console.log(calmonth(new Date, { colors: colors }))
+    var caltxt = calmonth(new Date, { colors: colors })
+    var evlines = Object.keys(titles).map(function (key, i) {
+      return fcolor('cyan') + '[' + (index++) + '] '
+        + reset + titles[key]
+    })
+    console.log(layers([
+      { text: caltxt, x: 0, y: 0 },
+      { text: evlines.join('\n'), x: 22, y: 1 }
+    ]))
   })
 }
 
