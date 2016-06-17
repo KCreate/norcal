@@ -3,6 +3,9 @@ var hcali = require('hyperlog-calendar-index')
 var sub = require('subleveldown')
 var xtend = require('xtend')
 var randombytes = require('randombytes')
+var collect = require('collect-stream')
+var through = require('through2')
+var readonly = require('read-only-stream')
 
 var KV = 'k', CAL = 'c'
 
@@ -25,7 +28,7 @@ function Cal (opts) {
     var v = row.value
     if (!v) return null
     else if (v.d !== undefined) {
-      return xtend(v, { type: 'del' })
+      return xtend(v.v, { type: 'del', key: v.d })
     } else if (v.k !== undefined) {
       return xtend(v.v, { type: 'put' })
     }
@@ -37,6 +40,30 @@ Cal.prototype.add = function (time, opts, cb) {
   this.kv.put(id, xtend(opts, { time: time }), cb)
 }
 
+Cal.prototype.remove = function (id, cb) {
+  this.kv.del(id, cb)
+}
+
 Cal.prototype.query = function (opts, cb) {
-  return this.cal.query(opts, cb)
+  if (typeof opts === 'function') {
+    cb = opts
+    opts = {}
+  }
+  if (!opts) opts = {}
+  var self = this
+  var stream = self.cal.query(opts).pipe(through.obj(write))
+
+  if (cb) collect(stream, cb)
+  return readonly(stream)
+
+  function write (row, enc, next) {
+    self.log.get(row.key, function (err, doc) {
+      if (!doc.value || !doc.value.k) {
+        next(new Error('missing key in ' + row.key))
+      } else next(null, xtend(doc.value.v, {
+        key: doc.value.k,
+        time: row.time
+      }))
+    })
+  }
 }
