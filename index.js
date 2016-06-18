@@ -37,7 +37,9 @@ function Cal (opts) {
 
 Cal.prototype.add = function (time, opts, cb) {
   var id = randombytes(8).toString('hex')
-  this.kv.put(id, xtend(opts, { time: time }), cb)
+  this.kv.put(id, xtend(opts, { time: time }), function (err, node) {
+    if (cb) cb(err, node, id)
+  })
 }
 
 Cal.prototype.remove = function (id, cb) {
