@@ -24,13 +24,13 @@ function Cal (opts) {
     db: sub(opts.db, CAL),
     map: map
   })
-  function map (row) {
+  function map (row, next) {
     var v = row.value
     if (!v) return null
     else if (v.d !== undefined) {
-      return xtend(v.v, { type: 'del', key: v.d })
+      next(null, { type: 'del' })
     } else if (v.k !== undefined) {
-      return xtend(v.v, { type: 'put' })
+      next(null, xtend(v.v, { type: 'put' }))
     }
   }
 }
