@@ -51,13 +51,13 @@ Cal.prototype.remove = function (id, cb) {
       if (cb) cb(err)
       var index = Number(id)
       if (isNaN(index)) {
-        console.log('Could not find index: ' + id)
+        console.error('Could not find index: ' + id)
       } else {
         if (index <= docs.length - 1) {
           var key = docs[Number(id)].key
           self.kv.del(key, cb)
         } else {
-          console.log('Could not find index: ' + id)
+          console.error('Could not find index: ' + id)
         }
       }
     });
