@@ -43,17 +43,25 @@ Cal.prototype.add = function (time, opts, cb) {
 }
 
 Cal.prototype.remove = function (id, cb) {
-    var self = this
-
-    if (id.length === 16) {
-        this.kv.del(id, cb)
-    } else {
-        this.query(monthRange(new Date), function(err, docs) {
-            if (cb) cb(err)
-            var key = docs[Number(id)].key;
-            self.kv.del(key, cb)
-        });
-    }
+  var self = this
+  if (id.length === 16) {
+    this.kv.del(id, cb)
+  } else {
+    this.query(monthRange(new Date), function(err, docs) {
+      if (cb) cb(err)
+      var index = Number(id)
+      if (isNaN(index)) {
+        console.log('Could not find index: ' + id)
+      } else {
+        if (index <= docs.length - 1) {
+          var key = docs[Number(id)].key
+          self.kv.del(key, cb)
+        } else {
+          console.log('Could not find index: ' + id)
+        }
+      }
+    });
+  }
 }
 
 Cal.prototype.query = function (opts, cb) {
