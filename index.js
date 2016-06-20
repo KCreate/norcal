@@ -43,7 +43,17 @@ Cal.prototype.add = function (time, opts, cb) {
 }
 
 Cal.prototype.remove = function (id, cb) {
-  this.kv.del(id, cb)
+    var self = this
+
+    if (id.length === 16) {
+        this.kv.del(id, cb)
+    } else {
+        this.query(monthRange(new Date), function(err, docs) {
+            if (cb) cb(err)
+            var key = docs[Number(id)].key;
+            self.kv.del(key, cb)
+        });
+    }
 }
 
 Cal.prototype.query = function (opts, cb) {
@@ -68,4 +78,20 @@ Cal.prototype.query = function (opts, cb) {
       }))
     })
   }
+}
+
+function monthRange(date) {
+    var first = new Date()
+    first.setHours(0)
+    first.setMinutes(0)
+    first.setSeconds(0)
+    first.setDate(1)
+    var last = new Date(date)
+    last.setHours(0)
+    last.setMinutes(0)
+    last.setSeconds(0)
+    last.setMonth(date.getMonth() + 1)
+    last.setDate(1)
+
+    return { gt: first, lt: last }
 }
